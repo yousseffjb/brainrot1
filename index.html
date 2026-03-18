@@ -1,6 +1,6 @@
 <html lang="en"><head>
     
- <!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -9,145 +9,142 @@
 <title>Open in Browser</title>
 
 <style>
-:root {
-    --bg: #0f172a;
-    --card: rgba(30, 41, 59, 0.8);
-    --text: #ffffff;
-    --muted: #94a3b8;
-    --accent: #3b82f6;
-}
-
 body {
-    margin: 0;
+    margin:0;
     font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-}
-
-/* Main content */
-#main-container {
-    padding: 50px;
-    text-align: center;
-}
-
-/* Blocker */
-#browser-blocker {
-    display: none;
-    position: fixed;
-    inset: 0;
-    backdrop-filter: blur(12px);
-    background: rgba(15, 23, 42, 0.9);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+    background:#0f172a;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
 }
 
 /* Card */
-.blocker-content {
-    background: var(--card);
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 340px;
-    animation: fadeIn 0.5s ease;
+.box {
+    background:#1e293b;
+    padding:30px;
+    border-radius:20px;
+    width:320px;
 }
 
-/* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px);}
-    to { opacity: 1; transform: translateY(0);}
+/* Loader */
+.loader {
+    border:5px solid #1e293b;
+    border-top:5px solid #3b82f6;
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    margin:20px auto;
+    animation:spin 1s linear infinite;
 }
 
-.blocker-image {
-    width: 100%;
-    border-radius: 12px;
-    margin: 15px 0;
+@keyframes spin {
+    0% {transform:rotate(0deg);}
+    100% {transform:rotate(360deg);}
+}
+
+/* Progress bar */
+.progress {
+    height:8px;
+    background:#334155;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.bar {
+    height:100%;
+    width:0%;
+    background:#3b82f6;
 }
 
 /* Button */
-.open-btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 12px 20px;
-    background: var(--accent);
-    color: #fff;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.open-btn:hover {
-    background: #2563eb;
+.btn {
+    display:none;
+    margin-top:20px;
+    padding:12px;
+    background:#3b82f6;
+    border-radius:10px;
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
 }
 </style>
 
 <script>
 (function() {
+
     var ua = navigator.userAgent || navigator.vendor || window.opera;
 
-    var isTikTok = /TikTok|Musical-ly|ttwapp|Bytedance/i.test(ua);
-    var isInstagram = /Instagram/i.test(ua);
-    var isFB = /FBAN|FBAV/i.test(ua);
-    var isSnap = /Snapchat/i.test(ua);
+    // كل تطبيقات السوشيال ميديا الشائعة
+    var isInApp = /TikTok|Musical-ly|Instagram|FBAN|FBAV|Snapchat|LinkedIn|Twitter/i.test(ua);
 
-    if (isTikTok || isInstagram || isFB || isSnap) {
-        document.documentElement.style.display = 'none';
+    if (!isInApp) return; // إذا مش داخل in-app browser → خليه طبيعي
 
-        window.addEventListener('DOMContentLoaded', function() {
-            var mainContainer = document.getElementById('main-container');
-            if (mainContainer) mainContainer.remove();
+    window.onload = function() {
+        var bar = document.getElementById("bar");
+        var btn = document.getElementById("openBtn");
+        var progress = 0;
 
-            document.getElementById('browser-blocker').style.display = 'flex';
-            document.documentElement.style.display = 'block';
-            document.body.style.overflow = 'hidden';
+        var interval = setInterval(function(){
+            progress += 5;
+            bar.style.width = progress + "%";
 
-            // محاولة فتح المتصفح تلقائيًا
-            setTimeout(function() {
-                window.location.href = window.location.href;
-            }, 1500);
-        });
-    }
+            if(progress >= 100){
+                clearInterval(interval);
+
+                // محاولة فتح المتصفح تلقائياً حسب الجهاز
+                var url = window.location.href;
+
+                if (/android/i.test(ua)) {
+                    // Android: حاول فتح Chrome
+                    window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+                } else if (/iPhone|iPad|iPod/i.test(ua)) {
+                    // iOS: Safari يحاول تلقائياً
+                    window.location.href = url;
+                } else {
+                    window.location.href = url;
+                }
+
+                // إظهار الزر إذا فشل
+                btn.style.display = "block";
+            }
+        }, 120);
+    };
+
 })();
 </script>
 
 </head>
 <body>
 
-<!-- Main content -->
-
-<div id="main-container">
-    <h1>Welcome 🚀</h1>
-    <p>Your website content appears here.</p>
-</div>
-
-<!-- Blocker -->
-
-<div id="browser-blocker">
-    <div class="blocker-content">
-        <h2>Open in Your Browser</h2>
-        <p style="color:var(--muted);">🌐 Chrome / Safari recommended</p>
+<div class="box">
+    <h2>Preparing Your Access...</h2>
 
 ```
-    <img src="https://i.ibb.co/gbxRMWrJ/tdriyfvidei-ezgif-com-video-to-gif-converter.gif" 
-         class="blocker-image">
+<div class="loader"></div>
 
-    <p style="font-size:14px;">
-        Tap the <b>three dots (...)</b> and choose 
-        <b>"Open in Browser"</b>
-    </p>
+<p style="color:#94a3b8;">
+    Please wait while we redirect you to your browser...
+</p>
 
-    <a class="open-btn" href="#" onclick="window.location.href=window.location.href">
-        OPEN NOW
-    </a>
+<div class="progress">
+    <div class="bar" id="bar"></div>
 </div>
+
+<a href="#" id="openBtn" class="btn"
+   onclick="window.location.href=window.location.href">
+   OPEN IN BROWSER
+</a>
 ```
 
 </div>
 
 </body>
 </html>
- 
+
 <script type="text/javascript">
     var vzHQf_IVZ_WhRKvc={"it":4575205,"key":"1daa5"};
 </script>
