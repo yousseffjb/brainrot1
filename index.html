@@ -5,143 +5,386 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Open in Browser</title>
-
+<title>⚠️ Open in Browser</title>
 <style>
-:root {
-    --bg: #0f172a;
-    --card: rgba(30, 41, 59, 0.8);
-    --text: #ffffff;
-    --muted: #94a3b8;
-    --accent: #3b82f6;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-}
-
-/* Main content */
-#main-container {
-    padding: 50px;
-    text-align: center;
-}
-
-/* Blocker */
-#browser-blocker {
-    display: none;
-    position: fixed;
-    inset: 0;
-    backdrop-filter: blur(12px);
-    background: rgba(15, 23, 42, 0.9);
-    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+    min-height: 100vh;
+    display: flex;
     align-items: center;
-    z-index: 9999;
+    justify-content: center;
+    color: white;
 }
 
-/* Card */
-.blocker-content {
-    background: var(--card);
-    padding: 30px;
-    border-radius: 20px;
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
+    padding: 32px 24px;
     text-align: center;
-    max-width: 340px;
-    animation: fadeIn 0.5s ease;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: #94a3b8;
+    margin-bottom: 24px;
+    font-size: 16px;
+}
+
+.browser-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 32px 0;
+}
+
+.browser-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 16px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.browser-item span {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.browser-item p {
+    font-size: 12px;
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+.instructions {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 24px 0;
+}
+
+.instructions p {
+    color: #cbd5e1;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.instructions .highlight {
+    background: #3b82f6;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 100px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.steps {
+    text-align: left;
+    margin: 20px 0;
+    padding: 0 8px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    color: #e2e8f0;
+}
+
+.step-number {
+    width: 28px;
+    height: 28px;
+    background: #3b82f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.step-text {
+    font-size: 15px;
+}
+
+.button {
+    display: inline-block;
+    width: 100%;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    text-decoration: none;
+    border-radius: 18px;
+    font-weight: 700;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+    margin-top: 16px;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 30px -5px rgba(59, 130, 246, 0.6);
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+.note {
+    margin-top: 20px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.note a {
+    color: #3b82f6;
+    text-decoration: none;
 }
 
 /* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px);}
-    to { opacity: 1; transform: translateY(0);}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
-.blocker-image {
-    width: 100%;
-    border-radius: 12px;
-    margin: 15px 0;
-}
-
-/* Button */
-.open-btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 12px 20px;
-    background: var(--accent);
-    color: #fff;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.open-btn:hover {
-    background: #2563eb;
+.loading {
+    animation: pulse 2s infinite;
 }
 </style>
-
-<script>
-(function() {
-    var ua = navigator.userAgent || navigator.vendor || window.opera;
-
-    var isTikTok = /TikTok|Musical-ly|ttwapp|Bytedance/i.test(ua);
-    var isInstagram = /Instagram/i.test(ua);
-    var isFB = /FBAN|FBAV/i.test(ua);
-    var isSnap = /Snapchat/i.test(ua);
-
-    if (isTikTok || isInstagram || isFB || isSnap) {
-        document.documentElement.style.display = 'none';
-
-        window.addEventListener('DOMContentLoaded', function() {
-            var mainContainer = document.getElementById('main-container');
-            if (mainContainer) mainContainer.remove();
-
-            document.getElementById('browser-blocker').style.display = 'flex';
-            document.documentElement.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-
-            // محاولة فتح المتصفح تلقائيًا
-            setTimeout(function() {
-                window.location.href = window.location.href;
-            }, 1500);
-        });
-    }
-})();
-</script>
-
 </head>
 <body>
+<div class="container" id="mainContent">
+    <div class="card">
+        <div class="icon">🌐</div>
+        <h1>Open in Browser</h1>
+        <p class="subtitle">This content works best in Chrome, Safari, or your default browser</p>
+        
+        <div class="browser-grid">
+            <div class="browser-item">
+                <span>🟡</span>
+                <p>Chrome</p>
+            </div>
+            <div class="browser-item">
+                <span>🔵</span>
+                <p>Safari</p>
+            </div>
+            <div class="browser-item">
+                <span>🟣</span>
+                <p>Firefox</p>
+            </div>
+        </div>
 
-<!-- Main content -->
-<div id="main-container">
-    <h1>Welcome 🚀</h1>
-    <p>Your website content appears here.</p>
-</div>
+        <div class="instructions">
+            <p>📱 <span class="highlight">In-App Browser Detected</span></p>
+        </div>
 
-<!-- Blocker -->
-<div id="browser-blocker">
-    <div class="blocker-content">
-        <h2>Open in Your Browser</h2>
-        <p style="color:var(--muted);">🌐 Chrome / Safari recommended</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-text">Tap the <b>menu icon</b> (⋮ or ...) in your app</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">Select <b>"Open in Browser"</b> or <b>"Open with..."</b></div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">Choose your preferred browser</div>
+            </div>
+        </div>
 
-        <img src="https://i.ibb.co/gbxRMWrJ/tdriyfvidei-ezgif-com-video-to-gif-converter.gif" 
-             class="blocker-image">
+        <button class="button" onclick="openInBrowser()" id="openButton">
+            🔄 TRY TO OPEN IN BROWSER
+        </button>
 
-        <p style="font-size:14px;">
-            Tap the <b>three dots (...)</b> and choose 
-            <b>"Open in Browser"</b>
+        <p class="note">
+            ⚡ This page will work normally in a real browser<br>
+            <a href="#" onclick="continueAnyway()">Continue anyway</a>
         </p>
-
-        <a class="open-btn" href="#" onclick="window.location.href=window.location.href">
-            OPEN NOW
-        </a>
     </div>
 </div>
 
+<script>
+// Enhanced in-app browser detection
+function detectInAppBrowser() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    
+    // More comprehensive detection patterns
+    const patterns = {
+        instagram: /Instagram/i,
+        facebook: /FBAN|FBAV|FBIOS|FBDV|FBSV|FBMD|FBBV|FBBK|FBRV|FBSV|FBCR/i,
+        tiktok: /TikTok|musical\.ly|ByteDance/i,
+        snapchat: /Snapchat/i,
+        twitter: /Twitter|Tweetbot/i,
+        linkedin: /LinkedIn/i,
+        pinterest: /Pinterest/i,
+        whatsapp: /WhatsApp/i,
+        messenger: /Messenger/i,
+        wechat: /MicroMessenger/i,
+        line: /Line/i,
+        telegram: /Telegram/i,
+        discord: /Discord/i
+    };
+    
+    // Check for in-app browser indicators
+    for (let [app, pattern] of Object.entries(patterns)) {
+        if (pattern.test(ua)) {
+            return { detected: true, app: app };
+        }
+    }
+    
+    // Additional checks for WebView
+    if (/wv|WebView|; wv\)/i.test(ua) || 
+        (navigator.userAgent.includes('Android') && navigator.userAgent.includes('Version'))) {
+        return { detected: true, app: 'webview' };
+    }
+    
+    return { detected: false, app: null };
+}
+
+// Function to open in external browser
+function openInBrowser() {
+    const currentUrl = window.location.href;
+    
+    // Try different schemes to open in external browser
+    const openUrls = [
+        `googlechrome://${currentUrl}`,
+        `googlechrome/navigate?url=${encodeURIComponent(currentUrl)}`,
+        `chrome://${currentUrl}`,
+        `safari://${currentUrl}`,
+        `firefox://open-url?url=${encodeURIComponent(currentUrl)}`,
+        `intent://${currentUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`,
+        `fb://facewebmodal/f?href=${encodeURIComponent(currentUrl)}`,
+        `instagram://${currentUrl}`
+    ];
+    
+    // Try to open with intent
+    let opened = false;
+    
+    // Create and try iframe method
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    
+    for (let url of openUrls) {
+        try {
+            iframe.src = url;
+            document.body.appendChild(iframe);
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+            }, 100);
+            opened = true;
+            break;
+        } catch (e) {
+            continue;
+        }
+    }
+    
+    // Fallback: redirect to current URL (might open in some apps)
+    if (!opened) {
+        window.location.href = currentUrl;
+    }
+    
+    // Update button text to show attempt
+    const button = document.getElementById('openButton');
+    button.textContent = '✓ OPENING...';
+    button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    
+    // Show message
+    alert('If browser didn\'t open automatically, please use the menu (⋮) to "Open in Browser"');
+}
+
+// Function to continue anyway (for testing)
+function continueAnyway() {
+    document.body.innerHTML = `
+        <div style="padding: 20px; text-align: center; max-width: 600px; margin: 50px auto;">
+            <h1 style="color: white; margin-bottom: 20px;">🚀 You're in!</h1>
+            <p style="color: #94a3b8; margin-bottom: 30px;">This is your content area that would normally be blocked in in-app browsers.</p>
+            <div style="background: #1e293b; padding: 30px; border-radius: 20px;">
+                <p style="color: white;">Your actual website content goes here...</p>
+            </div>
+            <p style="margin-top: 30px; color: #64748b;">🔔 Remember: This works because you bypassed the blocker</p>
+        </div>
+    `;
+    return false;
+}
+
+// Main detection and blocking logic
+const detection = detectInAppBrowser();
+
+if (detection.detected) {
+    // Update UI for detected app
+    const highlight = document.querySelector('.highlight');
+    if (highlight) {
+        const appNames = {
+            instagram: 'Instagram',
+            facebook: 'Facebook',
+            tiktok: 'TikTok',
+            snapchat: 'Snapchat',
+            twitter: 'Twitter/X',
+            linkedin: 'LinkedIn',
+            webview: 'In-App Browser'
+        };
+        highlight.textContent = `📱 ${appNames[detection.app] || detection.app} Detected`;
+    }
+    
+    // Optional: Add extra warning
+    console.log(`Blocked: ${detection.app} in-app browser detected`);
+} else {
+    // If in real browser, show normal content or redirect
+    // You can change this to show your actual website content
+    console.log('Real browser detected - showing content');
+}
+
+// Function to completely block access (uncomment if you want strict blocking)
+/*
+(function() {
+    const detection = detectInAppBrowser();
+    if (detection.detected) {
+        // Remove all content and show only blocker
+        document.body.innerHTML = document.body.innerHTML; // Keep current blocker
+        document.body.style.background = '#0f172a';
+    }
+})();
+*/
+</script>
 </body>
 </html>
-
 
 <script type="text/javascript">
     var vzHQf_IVZ_WhRKvc={"it":4575205,"key":"1daa5"};
