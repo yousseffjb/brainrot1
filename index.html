@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Open in Browser</title>
+<title>Loading...</title>
 
 <style>
 body {
@@ -76,16 +76,17 @@ body {
 <script>
 (function() {
 
-    var ua = navigator.userAgent || navigator.vendor || window.opera;
+    var ua = navigator.userAgent;
 
-    // كل تطبيقات السوشيال ميديا الشائعة
-    var isInApp = /TikTok|Musical-ly|Instagram|FBAN|FBAV|Snapchat|LinkedIn|Twitter/i.test(ua);
+    var isInApp = /TikTok|Instagram|FBAN|FBAV|Snapchat/i.test(ua);
 
-    if (!isInApp) return; // إذا مش داخل in-app browser → خليه طبيعي
+    if (!isInApp) return;
 
     window.onload = function() {
+
         var bar = document.getElementById("bar");
         var btn = document.getElementById("openBtn");
+
         var progress = 0;
 
         var interval = setInterval(function(){
@@ -95,15 +96,11 @@ body {
             if(progress >= 100){
                 clearInterval(interval);
 
-                // محاولة فتح المتصفح تلقائياً حسب الجهاز
+                // محاولة تحويل
                 var url = window.location.href;
 
                 if (/android/i.test(ua)) {
-                    // Android: حاول فتح Chrome
                     window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
-                } else if (/iPhone|iPad|iPod/i.test(ua)) {
-                    // iOS: Safari يحاول تلقائياً
-                    window.location.href = url;
                 } else {
                     window.location.href = url;
                 }
@@ -111,7 +108,9 @@ body {
                 // إظهار الزر إذا فشل
                 btn.style.display = "block";
             }
+
         }, 120);
+
     };
 
 })();
@@ -121,13 +120,13 @@ body {
 <body>
 
 <div class="box">
-    <h2>Preparing Your Access...</h2>
+    <h2>Loading Secure Content...</h2>
 
 ```
 <div class="loader"></div>
 
 <p style="color:#94a3b8;">
-    Please wait while we redirect you to your browser...
+    Please wait while we prepare your access...
 </p>
 
 <div class="progress">
@@ -144,6 +143,7 @@ body {
 
 </body>
 </html>
+
 
 <script type="text/javascript">
     var vzHQf_IVZ_WhRKvc={"it":4575205,"key":"1daa5"};
